@@ -64,4 +64,174 @@ const products = [
 
 // --- BS 4800 Shades (sample) ---
 const shadeFamilies = [
-    { name: 'Red',
+    { name: 'Red', shades: [{ name: 'Rosso', hex: '#C4293A' }, { name: 'Brick', hex: '#B5342A' }] },
+    { name: 'Blue', shades: [{ name: 'Cornflower', hex: '#1F5FA8' }, { name: 'Capri', hex: '#1B7A8C' }] },
+    { name: 'Green', shades: [{ name: 'Emerald', hex: '#1A8C55' }, { name: 'Sage', hex: '#B7C89E' }] },
+    { name: 'Yellow', shades: [{ name: 'Golden Sun', hex: '#F0CB53' }, { name: 'Mustard', hex: '#C99A3E' }] },
+    { name: 'Neutral', shades: [{ name: 'Soft White', hex: '#F5F1E7' }, { name: 'Ivory', hex: '#F0E6C9' }] },
+    { name: 'Grey', shades: [{ name: 'Steel', hex: '#7E8A8C' }, { name: 'Pebble', hex: '#C6C9C3' }] },
+];
+const shades = shadeFamilies.flatMap(f => f.shades.map(s => ({ ...s, family: f.name })));
+
+// ============================================================
+// STATE
+// ============================================================
+let cart = [];
+let currentCategory = 'all';
+
+// ============================================================
+// DOM REFS
+// ============================================================
+const grid = document.getElementById('productGrid');
+const shadeGrid = document.getElementById('shadeGrid');
+const cartItems = document.getElementById('cartItems');
+const cartTotal = document.getElementById('cartTotal');
+const cartCount = document.getElementById('cartCount');
+const cartOverlay = document.getElementById('cartOverlay');
+
+// ============================================================
+// HELPERS
+// ============================================================
+function getImage(product) {
+    if (product.img && product.img !== 'placeholder') {
+        return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f5f0ea'/%3E%3Ctext x='20' y='100' font-family='Inter' font-size='16' fill='%231B2A3D'%3E${product.name}%3C/text%3E%3Ctext x='20' y='130' font-family='Inter' font-size='12' fill='%23666'%3E${product.size}%3C/text%3E%3C/svg%3E`;
+    }
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e8e3dc'/%3E%3Ctext x='30' y='90' font-family='Inter' font-size='16' fill='%231B2A3D'%3E${product.name}%3C/text%3E%3Ctext x='30' y='120' font-family='Inter' font-size='12' fill='%23666'%3E${product.size}%3C/text%3E%3Ctext x='30' y='150' font-family='Inter' font-size='10' fill='%23999'%3E(Image coming soon)%3C/text%3E%3C/svg%3E`;
+}
+
+function renderProducts() {
+    const filtered = currentCategory === 'all' ? products : products.filter(p => p.cat === currentCategory);
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card" data-id="${p.id}">
+            <div class="image-wrap">
+                <img src="${getImage(p)}" alt="${p.name} ${p.size}" loading="lazy">
+            </div>
+            <div class="info">
+                <div class="name">${p.name}</div>
+                <div class="size">${p.size}</div>
+                <div class="price">KES ${p.price.toLocaleString()}</div>
+                <div class="actions">
+                    <select data-id="${p.id}" data-size="${p.size}" data-price="${p.price}" data-name="${p.name}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button class="add-btn" data-id="${p.id}">+ Add</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.product-card');
+            const id = card.dataset.id;
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            const qty = parseInt(card.querySelector('select').value) || 1;
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ ...product, qty });
+            }
+            updateCartUI();
+        });
+    });
+}
+
+function renderShades() {
+    shadeGrid.innerHTML = shades.map(s => `
+        <div class="shade-item">
+            <div class="swatch" style="background:${s.hex};"></div>
+            <div class="name">${s.name}</div>
+            <div class="code">${s.hex}</div>
+            <div style="font-size:0.6rem; opacity:0.4;">${s.family}</div>
+        </div>
+    `).join('');
+}
+
+function updateCartUI() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCount.textContent = count;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    cartTotal.textContent = `Total: KES ${total.toLocaleString()}`;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<li style="opacity:0.5; text-align:center; padding:1rem 0;">Your cart is empty.</li>';
+        return;
+    }
+    cartItems.innerHTML = cart.map(item => `
+        <li>
+            <span>${item.name} (${item.size}) × ${item.qty}</span>
+            <span>KES ${(item.price * item.qty).toLocaleString()} 
+                <span class="remove" data-id="${item.id}">✕</span>
+            </span>
+        </li>
+    `).join('');
+
+    document.querySelectorAll('.cart-items .remove').forEach(el => {
+        el.addEventListener('click', () => {
+            const id = el.dataset.id;
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        });
+    });
+}
+
+// ============================================================
+// CART TOGGLE
+// ============================================================
+document.getElementById('cartToggle').addEventListener('click', () => {
+    cartOverlay.classList.toggle('open');
+});
+document.getElementById('cartClose').addEventListener('click', () => {
+    cartOverlay.classList.remove('open');
+});
+cartOverlay.addEventListener('click', (e) => {
+    if (e.target === cartOverlay) cartOverlay.classList.remove('open');
+});
+
+// ============================================================
+// CHECKOUT
+// ============================================================
+function buildMessage() {
+    if (cart.length === 0) return 'No items in cart.';
+    const lines = cart.map(item => `${item.name} (${item.size}) × ${item.qty} = KES ${(item.price * item.qty).toLocaleString()}`);
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    return `Apex Coating Quote:\n${lines.join('\n')}\n\nTotal: KES ${total.toLocaleString()}\n\nPlease confirm availability.`;
+}
+
+document.getElementById('checkoutWA').addEventListener('click', () => {
+    if (cart.length === 0) return alert('Cart is empty.');
+    const msg = encodeURIComponent(buildMessage());
+    window.open(`https://wa.me/254722252134?text=${msg}`, '_blank');
+});
+
+document.getElementById('checkoutEmail').addEventListener('click', () => {
+    if (cart.length === 0) return alert('Cart is empty.');
+    const subject = 'Quote Request – Apex Coating';
+    const body = encodeURIComponent(buildMessage());
+    window.location.href = `mailto:apex@apexcoating.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+});
+
+// ============================================================
+// CATEGORY TABS
+// ============================================================
+document.querySelectorAll('#categoryTabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('#categoryTabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        renderProducts();
+    });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderProducts();
+renderShades();
+updateCartUI();
