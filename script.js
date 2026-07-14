@@ -93,10 +93,7 @@ const cartOverlay = document.getElementById('cartOverlay');
 // HELPERS
 // ============================================================
 function getImage(product) {
-    if (product.img && product.img !== 'placeholder') {
-        return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f5f0ea'/%3E%3Ctext x='20' y='100' font-family='Inter' font-size='16' fill='%231B2A3D'%3E${product.name}%3C/text%3E%3Ctext x='20' y='130' font-family='Inter' font-size='12' fill='%23666'%3E${product.size}%3C/text%3E%3C/svg%3E`;
-    }
-    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e8e3dc'/%3E%3Ctext x='30' y='90' font-family='Inter' font-size='16' fill='%231B2A3D'%3E${product.name}%3C/text%3E%3Ctext x='30' y='120' font-family='Inter' font-size='12' fill='%23666'%3E${product.size}%3C/text%3E%3Ctext x='30' y='150' font-family='Inter' font-size='10' fill='%23999'%3E(Image coming soon)%3C/text%3E%3C/svg%3E`;
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e8e3dc'/%3E%3Ctext x='30' y='90' font-family='Inter' font-size='14' fill='%231B2A3D'%3E${product.name}%3C/text%3E%3Ctext x='30' y='120' font-family='Inter' font-size='12' fill='%23666'%3E${product.size}%3C/text%3E%3Ctext x='30' y='150' font-family='Inter' font-size='10' fill='%23999'%3E(Image coming soon)%3C/text%3E%3C/svg%3E`;
 }
 
 function renderProducts() {
@@ -235,3 +232,5 @@ document.querySelectorAll('#categoryTabs button').forEach(btn => {
 renderProducts();
 renderShades();
 updateCartUI();
+
+console.log('Apex website loaded successfully!');
