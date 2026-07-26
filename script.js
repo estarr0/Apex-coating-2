@@ -1,402 +1,274 @@
-/* ================= FULL CSS SYSTEM ================= */
-:root {
-  --bg: #FFFFFF;
-  --bg-alt: #FDF3E7;
-  --ink: #1A1F36;
-  --ink-soft: rgba(26,31,54,0.62);
-  --card: #FFFFFF;
-  --border: rgba(26,31,54,0.1);
-  --accent: #E01E2B;
-  --accent-soft: rgba(224,30,43,0.13);
-  --accent2: #1B4F9C;
-  --accent2-soft: rgba(27,79,156,0.13);
-  --gold: #F5A623;
-  --sidebar: #1B2A5C;
-  --sidebar-text: #FFF6E5;
+/* ================= COLOUR DATA ================= */
+const GROUPS = [
+  { id: "neutral", label: "Whites & Neutrals", swatch: "#F2ECDA", shades: [
+    { name: "Soft White", hex: "#F5F1E7", code: "10 B 15" }, { name: "Ivory", hex: "#F0E6C9", code: "10 C 31" },
+    { name: "Magnolia", hex: "#F2E9CE", code: "08 B 15" }, { name: "Buttermilk", hex: "#F2E2B8", code: "08 C 31" },
+    { name: "Vellum", hex: "#EDE4C8", code: "08 B 17" }, { name: "Full Moon", hex: "#F5F0DD" },
+    { name: "Porcelain Bowl", hex: "#F3EFD9" }, { name: "Antique Cream", hex: "#EDE0BE" }
+  ]},
+  { id: "yellow", label: "Yellow", swatch: "#F0CB53", shades: [
+    { name: "Mustard", hex: "#C99A3E", code: "10 C 35" }, { name: "Jasmine", hex: "#F2E27A", code: "10 E 49" },
+    { name: "Just Yellow", hex: "#F2CB2B", code: "10 E 50" }, { name: "African Gold", hex: "#C08A2E", code: "10 D 45" }
+  ]},
+  { id: "blue", label: "Blue", swatch: "#1F5FA8", shades: [
+    { name: "Billberry", hex: "#5E6FB0", code: "22 C 37" }, { name: "Northern Sky", hex: "#5F92AC", code: "18 C 35" },
+    { name: "Zircon", hex: "#A9CBD4", code: "16 C 33" }, { name: "Aqua", hex: "#4FA6A0", code: "14 C 35" },
+    { name: "Cornflower", hex: "#1F5FA8", code: "18 E 53" }, { name: "True Blue", hex: "#1E6FBF", code: "20 E 51" }
+  ]},
+  { id: "green", label: "Green", swatch: "#1F8A4C", shades: [
+    { name: "Emerald", hex: "#1A8C55", code: "14 E 53" }, { name: "Sage", hex: "#B7C89E", code: "12 B 17" },
+    { name: "Willow", hex: "#A9C97E", code: "12 C 33" }, { name: "Safaricom Green", hex: "#3FAA35" }
+  ]}
+];
+
+const CATALOGUE = [
+  { id: "matt", name: "Acrylic Emulsion (Vinyl Matt)", tag: "Exterior", category: "Emulsion & Water-Based Paints", tintable: true,
+    blurb: "Superior architectural paint on durable acrylic resin. Alkali-resistant.",
+    prices: { "1/2L": 260, "1L": 550, "4L": 1900, "10L": 4700, "20L": 8600 } },
+  { id: "silk", name: "Vinyl Wallsheen (Silk)", tag: "Interior", category: "Emulsion & Water-Based Paints", tintable: true,
+    blurb: "High-performance interior paint, cool satin finish, high wet-scrub resistance.",
+    prices: { "1/2L": 350, "1L": 650, "4L": 2100, "10L": 5500, "20L": 10000 } },
+  { id: "supergloss", name: "Supergloss", tag: "High gloss", category: "Oil-Based Paints", tintable: true,
+    blurb: "Oil-modified alkyd enamel. Long-lasting, easy-clean coat for wood and metal.",
+    prices: { "1/2L": 330, "1L": 650, "4L": 2250, "10L": 5500, "20L": 10500 } }
+];
+
+const SIZE_ORDER = ["1/4L", "1/2L", "1L", "4L", "10L", "20L"];
+
+/* ================= STATE ================= */
+let picks = [];
+let openGroupId = null;
+let mixQty = 1;
+
+/* ================= HELPERS ================= */
+function hexToRgb(hex) {
+  const v = hex.replace("#", "");
+  return [parseInt(v.substr(0,2),16), parseInt(v.substr(2,2),16), parseInt(v.substr(4,2),16)];
 }
-
-body.dark {
-  --bg: #14181F;
-  --bg-alt: #1B212B;
-  --ink: #EDEAE2;
-  --ink-soft: rgba(237,234,226,0.6);
-  --card: #1D222B;
-  --border: rgba(237,234,226,0.1);
-  --accent: #F0424E;
-  --accent-soft: rgba(240,66,78,0.18);
-  --accent2: #4A82D6;
-  --accent2-soft: rgba(74,130,214,0.18);
-  --gold: #F5B94A;
-  --sidebar: #0D1327;
-  --sidebar-text: #FFF6E5;
+function rgbToHex([r,g,b]) {
+  return "#" + [r,g,b].map(x => Math.round(x).toString(16).padStart(2,"0")).join("");
 }
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Inter', sans-serif;
-  transition: background 0.3s, color 0.3s;
+function blendHexes(hexes) {
+  if (hexes.length === 0) return "#FDF3E7";
+  const sum = hexes.reduce((acc,h) => {
+    const [r,g,b] = hexToRgb(h);
+    return [acc[0]+r, acc[1]+g, acc[2]+b];
+  }, [0,0,0]);
+  return rgbToHex(sum.map(v => v / hexes.length));
 }
+function fmt(n) { return "KES " + n.toLocaleString(); }
+function productById(id) { return CATALOGUE.find(p => p.id === id); }
 
-.display { font-family: 'Fraunces', serif; margin: 0; }
+/* ================= DOCUMENT READY ================= */
+$(document).ready(function() {
+  
+  // Initialize Owl Carousel
+  $(".owl-carousel").owlCarousel({
+    items: 1,
+    loop: true,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    nav: false,
+    dots: true
+  });
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  renderGroups();
+  populateMixerProducts();
+  renderCatalogue();
+  renderMixer();
 
-/* Top Overlay Promo Banner */
-.top-promo-banner {
-  background: var(--sidebar);
-  color: var(--sidebar-text);
-  text-align: center;
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 2px solid var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
+  // Navigation Handlers
+  const pageSections = document.querySelectorAll("main [data-page]");
+  const navButtons = document.querySelectorAll(".nav-btn[data-page], [data-go]");
 
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  left: 0; top: 0; bottom: 0;
-  width: 76px;
-  background: var(--sidebar);
-  color: var(--sidebar-text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 0;
-  z-index: 50;
-}
-
-.logo-badge {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  font-weight: 700;
-  color: var(--sidebar);
-  font-size: 18px;
-}
-
-.brand-stripe {
-  width: 28px; height: 4px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent) 0 33%, var(--gold) 33% 66%, var(--accent2) 66% 100%);
-  margin-bottom: 24px;
-}
-
-.nav-links { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-
-.nav-btn {
-  position: relative;
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  border: none;
-  background: transparent;
-  color: var(--sidebar-text);
-  opacity: 0.6;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, opacity 0.2s;
-}
-.nav-btn:hover { opacity: 1; }
-.nav-btn.active { background: var(--accent-soft); color: var(--accent); opacity: 1; }
-
-.tooltip {
-  position: absolute;
-  left: 56px;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--border);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s;
-}
-.nav-btn:hover .tooltip { opacity: 1; }
-
-.theme-btn { margin-top: 12px; background: var(--accent-soft); color: var(--accent); opacity: 1; }
-
-/* LAYOUT */
-main { margin-left: 76px; }
-
-.section { padding: 40px 48px 80px; max-width: 1100px; margin: 0 auto; }
-
-/* Hero Carousel */
-.hero-carousel-wrapper {
-  margin-bottom: 40px;
-}
-.owl-carousel .slide-card {
-  height: 300px;
-  border-radius: 18px;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-.owl-carousel .slide-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.3) 100%);
-}
-.slide-content {
-  position: relative;
-  z-index: 2;
-  max-width: 540px;
-}
-.slide-content h2 {
-  font-family: 'Fraunces', serif;
-  font-size: 36px;
-  margin: 0 0 12px;
-  line-height: 1.1;
-}
-.slide-content p {
-  font-size: 16px;
-  margin: 0 0 20px;
-  opacity: 0.9;
-}
-
-.eyebrow {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 12px;
-}
-
-.section-title { font-size: 34px; font-weight: 600; margin-bottom: 12px; font-family: 'Fraunces', serif; }
-.section-sub { color: var(--ink-soft); max-width: 620px; margin-bottom: 40px; }
-
-/* COLOUR GROUPS */
-.group-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-bottom: 32px;
-}
-@media (max-width: 800px) { .group-grid { grid-template-columns: repeat(2, 1fr); } }
-
-.group-tile {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid transparent;
-  cursor: pointer;
-  text-align: left;
-  background: none;
-  padding: 0;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.group-tile:hover { transform: translateY(-2px); }
-.group-tile.active { border-color: var(--accent); }
-.group-tile .swatch { height: 64px; }
-.group-tile .label {
-  background: var(--card);
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 12px 12px;
-}
-.group-tile .label p:first-child { font-size: 14px; font-weight: 600; margin: 0; }
-.group-tile .label p:last-child { font-size: 12px; color: var(--ink-soft); margin: 2px 0 0; }
-
-.shade-panel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 32px;
-}
-.shade-panel-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px;
-}
-.shade-panel-header h3 { font-size: 18px; font-weight: 600; margin: 0; }
-.shade-panel-header button { background: none; border: none; color: var(--ink-soft); cursor: pointer; font-size: 18px; }
-
-.shade-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-@media (max-width: 800px) { .shade-grid { grid-template-columns: repeat(2, 1fr); } }
-
-.shade-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg); }
-.shade-card .swatch { height: 64px; }
-.shade-card .info { padding: 10px 12px; }
-.shade-card .info p { font-size: 13px; font-weight: 500; margin: 0 0 8px; }
-.shade-card .shade-code { font-size: 10px; font-weight: 600; color: var(--ink-soft); margin: -6px 0 8px; }
-.shade-card button {
-  width: 100%;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 0;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: var(--accent-soft);
-  color: var(--accent);
-  transition: background 0.2s;
-}
-.shade-card button.added { background: var(--accent); color: #fff; }
-.shade-card button.disabled { background: var(--border); color: var(--ink-soft); cursor: not-allowed; }
-
-/* MIXER */
-.mixer {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
-}
-
-.mixer-hero { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
-.blend-swatch {
-  width: 84px; height: 84px;
-  border-radius: 50%;
-  border: 5px solid var(--bg);
-  background: var(--bg-alt);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  flex-shrink: 0;
-}
-.mixer-hero-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin: 0 0 4px; }
-.mix-components { font-size: 15px; color: var(--ink-soft); margin: 0; }
-
-.pick-tray { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; min-height: 20px; }
-.pick-chip {
-  display: flex; align-items: center; gap: 6px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 4px 10px 4px 4px;
-  background: var(--bg-alt);
-}
-.pick-chip .dot { width: 20px; height: 20px; border-radius: 50%; }
-.pick-chip span { font-size: 12px; font-weight: 500; }
-.pick-chip button { background: none; border: none; color: var(--ink-soft); cursor: pointer; font-size: 12px; }
-
-.mixer-controls {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  align-items: end;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-  margin-bottom: 20px;
-}
-@media (max-width: 800px) { .mixer-controls { grid-template-columns: 1fr 1fr; } }
-
-.mixer-controls label { display: flex; flex-direction: column; font-size: 12px; font-weight: 600; color: var(--ink-soft); gap: 6px; }
-.mixer-controls select {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--ink);
-}
-
-.qty-stepper { display: flex; align-items: center; gap: 12px; }
-.qty-stepper button {
-  width: 28px; height: 28px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--ink);
-  cursor: pointer;
-  font-size: 16px;
-}
-.qty-stepper span { font-size: 14px; font-weight: 600; min-width: 16px; text-align: center; }
-
-.mixer-price { display: flex; flex-direction: column; gap: 6px; }
-.mixer-price-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
-.mixer-price-value { font-size: 18px; font-weight: 700; color: var(--accent); }
-
-.mixer-actions { display: flex; gap: 12px; }
-
-.btn {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 12px 22px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: opacity 0.2s, background 0.2s;
-}
-.btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover:not(:disabled) { opacity: 0.9; }
-.btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
-
-/* CATALOGUE & PRODUCTS */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-@media (max-width: 800px) { .product-grid { grid-template-columns: 1fr; } }
-
-.product-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 24px;
-}
-.product-card h3 { font-size: 17px; font-weight: 600; margin: 0 0 6px; }
-.product-tag {
-  display: inline-block;
-  font-size: 11px; font-weight: 600;
-  background: var(--accent-soft); color: var(--accent);
-  padding: 3px 10px; border-radius: 999px;
-  margin-bottom: 12px;
-}
-.product-card .blurb { font-size: 14px; color: var(--ink-soft); margin-bottom: 16px; }
-
-.price-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.price-pill { background: var(--bg-alt); border-radius: 8px; padding: 8px 10px; text-align: center; min-width: 64px; }
-.price-pill .size { font-size: 11px; color: var(--ink-soft); }
-.price-pill .price { font-size: 13px; font-weight: 700; }
-
-/* RESPONSIVE MOBILE */
-@media (max-width: 640px) {
-  .sidebar {
-    left: 0; right: 0; top: auto; bottom: 0;
-    width: 100%; height: 64px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 8px;
+  function showPage(pageName) {
+    pageSections.forEach(sec => { sec.hidden = sec.dataset.page !== pageName; });
+    document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.page === pageName);
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
-  .logo-badge, .brand-stripe { display: none; }
-  .nav-links { flex-direction: row; flex: 0; gap: 8px; }
-  .theme-btn { margin: 0; }
-  main { margin-left: 0; padding-bottom: 76px; }
-  .section { padding: 24px 18px; }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.page || btn.dataset.go;
+      if (target) showPage(target);
+    });
+  });
+
+  // Dark / Light Theme Toggle
+  $("#themeToggle").on("click", function() {
+    $("body").toggleClass("dark");
+  });
+});
+
+/* ================= GROUP & SHADE RENDERING ================= */
+function renderGroups() {
+  const groupGrid = document.getElementById("groupGrid");
+  groupGrid.innerHTML = "";
+  GROUPS.forEach(g => {
+    const tile = document.createElement("button");
+    tile.className = "group-tile" + (openGroupId === g.id ? " active" : "");
+    tile.innerHTML = `
+      <div class="swatch" style="background:${g.swatch}"></div>
+      <div class="label"><p>${g.label}</p><p>${g.shades.length} shades</p></div>
+    `;
+    tile.addEventListener("click", () => {
+      openGroupId = openGroupId === g.id ? null : g.id;
+      renderGroups();
+      renderShadePanel();
+    });
+    groupGrid.appendChild(tile);
+  });
+}
+
+function renderShadePanel() {
+  const shadePanel = document.getElementById("shadePanel");
+  const group = GROUPS.find(g => g.id === openGroupId);
+  if (!group) { shadePanel.hidden = true; shadePanel.innerHTML = ""; return; }
+  
+  shadePanel.hidden = false;
+  const isFull = picks.length >= 5;
+  
+  shadePanel.innerHTML = `
+    <div class="shade-panel-header">
+      <h3>${group.label} Shades</h3>
+      <button id="closeShadePanel">✕</button>
+    </div>
+    <div class="shade-grid">
+      ${group.shades.map(s => {
+        const picked = picks.some(p => p.name === s.name);
+        const disabled = !picked && isFull;
+        return `
+          <div class="shade-card">
+            <div class="swatch" style="background:${s.hex}"></div>
+            <div class="info">
+              <p>${s.name}</p>
+              ${s.code ? `<p class="shade-code">${s.code}</p>` : ""}
+              <button data-shade="${s.name}" class="${picked ? "added" : disabled ? "disabled" : ""}" ${disabled ? "disabled" : ""}>
+                ${picked ? "✓ Added" : "+ Add to mix"}
+              </button>
+            </div>
+          </div>`;
+      }).join("")}
+    </div>
+  `;
+
+  $("#closeShadePanel").on("click", () => {
+    openGroupId = null; renderGroups(); renderShadePanel();
+  });
+
+  shadePanel.querySelectorAll("[data-shade]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const name = btn.dataset.shade;
+      const shade = group.shades.find(s => s.name === name);
+      const already = picks.some(p => p.name === name);
+      if (already) {
+        picks = picks.filter(p => p.name !== name);
+      } else if (picks.length < 5) {
+        picks.push(shade);
+      }
+      renderShadePanel();
+      renderMixer();
+    });
+  });
+}
+
+/* ================= TINT MIXER LOGIC ================= */
+function populateMixerProducts() {
+  const productSelect = document.getElementById("productSelect");
+  productSelect.innerHTML = "";
+  CATALOGUE.filter(p => p.tintable).forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p.id;
+    opt.textContent = p.name;
+    productSelect.appendChild(opt);
+  });
+  populateSizes();
+  
+  $(productSelect).on("change", () => {
+    populateSizes();
+    updatePrice();
+  });
+  
+  $("#sizeSelect").on("change", updatePrice);
+  
+  $("#qtyMinus").on("click", () => {
+    if (mixQty > 1) { mixQty--; $("#qtyValue").text(mixQty); updatePrice(); }
+  });
+  
+  $("#qtyPlus").on("click", () => {
+    mixQty++; $("#qtyValue").text(mixQty); updatePrice();
+  });
+
+  $("#clearMixBtn").on("click", () => {
+    picks = [];
+    renderShadePanel();
+    renderMixer();
+  });
+}
+
+function populateSizes() {
+  const product = productById($("#productSelect").val());
+  const sizeSelect = document.getElementById("sizeSelect");
+  const available = SIZE_ORDER.filter(s => product.prices[s] !== undefined);
+  sizeSelect.innerHTML = available.map(s => `<option value="${s}">${s}</option>`).join("");
+}
+
+function updatePrice() {
+  const product = productById($("#productSelect").val());
+  const size = $("#sizeSelect").val();
+  const basePrice = product.prices[size] || 0;
+  $("#unitPrice").text(fmt(basePrice * mixQty));
+}
+
+function renderMixer() {
+  const blendColor = blendHexes(picks.map(p => p.hex));
+  $("#blendSwatch").css("background-color", blendColor);
+
+  const pickTray = document.getElementById("pickTray");
+  pickTray.innerHTML = "";
+  
+  if (picks.length === 0) {
+    $("#mixComponents").text("Select up to 5 shades above to blend a custom tint.");
+  } else {
+    $("#mixComponents").text(`Custom Mix (${picks.length}/5 shades)`);
+    picks.forEach(p => {
+      const chip = document.createElement("div");
+      chip.className = "pick-chip";
+      chip.innerHTML = `
+        <div class="dot" style="background:${p.hex}"></div>
+        <span>${p.name}</span>
+        <button data-remove="${p.name}">✕</button>
+      `;
+      chip.querySelector("button").addEventListener("click", () => {
+        picks = picks.filter(item => item.name !== p.name);
+        renderShadePanel();
+        renderMixer();
+      });
+      pickTray.appendChild(chip);
+    });
+  }
+  updatePrice();
+}
+
+/* ================= CATALOGUE ================= */
+function renderCatalogue() {
+  const grid = document.getElementById("catalogueGrid");
+  grid.innerHTML = CATALOGUE.map(p => `
+    <div class="product-card">
+      <span class="product-tag">${p.tag}</span>
+      <h3>${p.name}</h3>
+      <p class="blurb">${p.blurb}</p>
+      <div class="price-grid">
+        ${Object.entries(p.prices).map(([size, price]) => `
+          <div class="price-pill">
+            <div class="size">${size}</div>
+            <div class="price">${fmt(price)}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
 }
