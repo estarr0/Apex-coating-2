@@ -1,146 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Paints & Finishes | Professional Coatings & Custom Tinting</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Owl Carousel CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Coating East Africa Ltd | BS 4800 Standard Paints & Premium Coatings</title>
+    <meta name="description" content="Apex Coating East Africa Ltd - Leading manufacturer of premium architectural paints, weatherguard exterior coatings, vinyl silk emulsions, and British Standard BS 4800 color tinting in Kenya & East Africa.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Owl Carousel 2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    
+    <!-- Master Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- 1. STICKY TOP PROMO BANNER -->
-  <div class="top-promo-banner">
-    💧 Continuous Motor & Pump Coatings | Heavy-Duty Weatherproofing Solutions
-  </div>
-
-  <!-- 2. NAVIGATION SIDEBAR -->
-  <aside class="sidebar">
-    <div class="logo-badge">A</div>
-    <div class="brand-stripe"></div>
-    <nav class="nav-links">
-      <button class="nav-btn active" data-page="home">
-        🏠 <span class="tooltip">Home</span>
-      </button>
-      <button class="nav-btn" data-page="colours">
-        🎨 <span class="tooltip">Colour Mixer</span>
-      </button>
-      <button class="nav-btn" data-page="catalogue">
-        📦 <span class="tooltip">Catalogue</span>
-      </button>
-    </nav>
-    <button class="nav-btn theme-btn" id="themeToggle">
-      🌙 <span class="tooltip">Toggle Theme</span>
-    </button>
-  </aside>
-
-  <!-- 3. MAIN CONTENT LAYOUT -->
-  <main>
-    <section class="section" data-page="home">
-      
-      <!-- HERO OWL CAROUSEL -->
-      <div class="hero-carousel-wrapper">
-        <div class="owl-carousel owl-theme">
-          
-          <div class="slide-card" style="background-image: url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=1200&auto=format&fit=crop');">
-            <div class="slide-content">
-              <h2>Architectural Paint & Coatings</h2>
-              <p>Formulated for alkali resistance, heavy downpours, and intense sun exposure.</p>
-              <button class="btn btn-primary" data-go="colours">Custom Tint Mixer</button>
+    <!-- Top Announcement & Support Bar -->
+    <div class="topbar">
+        <div class="container topbar-content">
+            <div class="topbar-info">
+                <span><i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i> Sales & Support: +254 700 800 900</span>
+                <span><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> info@apexcoatings.co.ke</span>
+                <span><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Nairobi • Mombasa • Kisumu • Kampala • Dar es Salaam</span>
             </div>
-          </div>
-
-          <div class="slide-card" style="background-image: url('https://images.unsplash.com/photo-1562259949-e8e7689d7828?q=80&w=1200&auto=format&fit=crop');">
-            <div class="slide-content">
-              <h2>Industrial & Wood Finishes</h2>
-              <p>Explore high-performance epoxies, lacquers, and heavy-duty protective primers.</p>
-              <button class="btn btn-primary" data-go="catalogue">View Catalogue</button>
+            <div class="topbar-controls">
+                <label for="currencySelect" style="font-size: 0.8rem; margin-right: 4px;"><i class="fas fa-globe"></i> Currency:</label>
+                <select id="currencySelect" class="currency-select">
+                    <option value="KES" selected>KES (KSh)</option>
+                    <option value="USD">USD ($)</option>
+                </select>
             </div>
-          </div>
-
         </div>
-      </div>
+    </div>
 
-      <p class="eyebrow">Explore Our Palette</p>
-      <h1 class="section-title">Color Groups & Shades</h1>
-      <p class="section-sub">Select a color family below to explore available shades or add them directly into the tint mixer.</p>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container navbar">
+            <a href="#home" class="brand-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-paint-roller"></i>
+                </div>
+                <div class="brand-text">
+                    <h2>APEX <span>COATING</span></h2>
+                    <p>East Africa Ltd</p>
+                </div>
+            </a>
 
-      <div class="group-grid" id="groupGrid"></div>
-      <div class="shade-panel" id="shadePanel" hidden></div>
+            <nav class="nav-links" id="navLinks">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#colors" class="nav-link">BS 4800 Colors</a>
+                <a href="#products" class="nav-link">Products & Price List</a>
+                <a href="#calculator" class="nav-link">Paint Calculator</a>
+                <a href="#stores" class="nav-link">Stores</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
 
-      <!-- MIXER COMPONENT INTEGRATED IN HOME -->
-      <div class="mixer">
-        <p class="eyebrow">Custom Tint Studio</p>
-        <div class="mixer-hero">
-          <div class="blend-swatch" id="blendSwatch"></div>
-          <div>
-            <p class="mixer-hero-label" id="mixMatch">Base Paint Mix</p>
-            <p class="mix-components" id="mixComponents">Select up to 5 shades above to blend a custom tint.</p>
-          </div>
-        </div>
-
-        <div class="pick-tray" id="pickTray"></div>
-
-        <div class="mixer-controls">
-          <label>
-            Product
-            <select id="productSelect"></select>
-          </label>
-          <label>
-            Container Size
-            <select id="sizeSelect"></select>
-          </label>
-          <label>
-            Quantity
-            <div class="qty-stepper">
-              <button id="qtyMinus">-</button>
-              <span id="qtyValue">1</span>
-              <button id="qtyPlus">+</button>
+            <div class="header-actions">
+                <div class="cart-trigger" id="cartTriggerBtn" title="View Quotation Estimate">
+                    <i class="fas fa-file-invoice-dollar" style="font-size: 1.2rem;"></i>
+                    <span class="cart-count" id="cartBadgeCount">0</span>
+                </div>
+                <a href="#products" class="btn btn-primary btn-sm">Catalog & Prices</a>
+                <div class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
-          </label>
-          <div class="mixer-price">
-            <span class="mixer-price-label">Estimated Cost</span>
-            <span class="mixer-price-value" id="unitPrice">KES 0</span>
-          </div>
         </div>
+    </header>
 
-        <div class="mixer-actions">
-          <button class="btn btn-primary" id="addToCartBtn">Add Mix to Order</button>
-          <button class="btn btn-outline" id="clearMixBtn">Reset Blend</button>
+    <!-- Main Hero Carousel (Owl Carousel) -->
+    <section class="hero-section" id="home">
+        <div class="owl-carousel owl-theme hero-owl-carousel">
+            <!-- Slide 1 -->
+            <div class="hero-slide" style="background-image: url('assets/hero1.jpg');">
+                <div class="container">
+                    <div class="hero-content">
+                        <span class="hero-tag"><i class="fas fa-award"></i> Premier Paint Manufacturer in East Africa</span>
+                        <h1 class="hero-title">Transform Your Spaces With <span>Apex Premium Coatings</span></h1>
+                        <p class="hero-subtitle">Engineered specifically for East Africa's climate. Superior weather resistance, brilliant opacity, and certified BS 4800 shade accuracy.</p>
+                        <div class="hero-buttons">
+                            <a href="#colors" class="btn btn-primary"><i class="fas fa-swatchbook"></i> Explore BS 4800 Colors</a>
+                            <a href="#products" class="btn btn-outline" style="color:#FFF; border-color:#FFF;"><i class="fas fa-tags"></i> View Price List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="hero-slide" style="background-image: url('assets/hero2.jpg');">
+                <div class="container">
+                    <div class="hero-content">
+                        <span class="hero-tag"><i class="fas fa-shield-alt"></i> 10-Year Weatherguard Shield</span>
+                        <h1 class="hero-title">Unrivaled Exterior Protection Against <span>Sun & Tropical Rains</span></h1>
+                        <p class="hero-subtitle">Apex Weatherguard Exterior Emulsion provides flexi-bridge technology to protect masonry facades across Nairobi, Mombasa, and regional hubs.</p>
+                        <div class="hero-buttons">
+                            <a href="#products" class="btn btn-primary"><i class="fas fa-shopping-bag"></i> Exterior Products</a>
+                            <a href="#calculator" class="btn btn-outline" style="color:#FFF; border-color:#FFF;"><i class="fas fa-calculator"></i> Calculate Litres Needed</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="hero-slide" style="background-image: url('assets/hero3.jpg');">
+                <div class="container">
+                    <div class="hero-content">
+                        <span class="hero-tag"><i class="fas fa-tree"></i> Timber & Metal Excellence</span>
+                        <h1 class="hero-title">High Gloss Enamels & <span>Polyurethane Wood Care</span></h1>
+                        <p class="hero-subtitle">Highlight timber grain with polyurethane lacquers and safeguard steel gates with rust-proof high gloss enamel coatings.</p>
+                        <div class="hero-buttons">
+                            <a href="#products" class="btn btn-primary"><i class="fas fa-paint-brush"></i> Wood & Metal Care</a>
+                            <a href="#stores" class="btn btn-outline" style="color:#FFF; border-color:#FFF;"><i class="fas fa-store"></i> Locate Nearest Store</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-
     </section>
 
-    <!-- PAGE 2: COLOUR MIXER ISOLATED PAGE -->
-    <section class="section" data-page="colours" hidden>
-      <h1 class="section-title">Interactive Colour Studio</h1>
-      <p class="section-sub">Select shades and blend your custom architectural finishes.</p>
+    <!-- Key Feature Highlights -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                    <div class="feature-info">
+                        <h4>BS 4800 Color Standard</h4>
+                        <p>Instant computer tinting in all standard British BS 4800 architectural color codes.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="feature-info">
+                        <h4>Eco-Friendly Low VOC</h4>
+                        <p>Low odor, non-toxic formulations for healthy interior air quality in homes and offices.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-truck-loading"></i></div>
+                    <div class="feature-info">
+                        <h4>East Africa Distribution</h4>
+                        <p>Same-day delivery and computer tinting services across Kenya, Uganda & Tanzania.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="feature-info">
+                        <h4>10-Year Guarantee</h4>
+                        <p>ISO certified quality guaranteed against cracking, peeling, or fungal discoloration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- PAGE 3: CATALOGUE -->
-    <section class="section" data-page="catalogue" hidden>
-      <h1 class="section-title">Product Catalogue</h1>
-      <p class="section-sub">Complete line of water-based emulsions, industrial coatings, thinners, and adhesives.</p>
-      <div class="product-grid" id="catalogueGrid"></div>
+    <!-- BS 4800 Color Palette Explorer & Live Visualizer -->
+    <section class="colors-section" id="colors">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Architectural Color Standard</span>
+                <h2 class="section-title">BS 4800 Color Palette & Live Visualizer</h2>
+                <p class="section-desc">Select any official British Standard BS 4800 paint shade below to preview it instantly on our interactive wall scene with custom lighting.</p>
+            </div>
+
+            <div class="visualizer-wrapper">
+                <!-- Color Chip Selection Column -->
+                <div class="colors-selector-col">
+                    <div class="color-filters">
+                        <button class="filter-chip active" data-cat="all">All Shades</button>
+                        <button class="filter-chip" data-cat="whites">Whites</button>
+                        <button class="filter-chip" data-cat="creams">Creams & Yellows</button>
+                        <button class="filter-chip" data-cat="blues">Blues & Teals</button>
+                        <button class="filter-chip" data-cat="greens">Greens</button>
+                        <button class="filter-chip" data-cat="reds">Reds & Clay</button>
+                        <button class="filter-chip" data-cat="greys">Greys & Darks</button>
+                    </div>
+
+                    <div class="colors-grid" id="colorsGrid">
+                        <!-- Populated dynamically by js/main.js -->
+                    </div>
+                </div>
+
+                <!-- Interactive Live Wall Preview Card -->
+                <div class="visualizer-preview-card">
+                    <h4 style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fas fa-eye" style="color: var(--accent-teal);"></i> Live Room Wall Visualizer</span>
+                        <span class="badge badge-gold" id="selectedColorCode">BS 00 E 55</span>
+                    </h4>
+
+                    <div class="room-canvas-container">
+                        <div class="room-wall-bg" id="roomWallBg"></div>
+                        <div class="room-furniture-overlay" id="roomFurnitureOverlay" style="background-image: url('assets/hero1.jpg');"></div>
+                    </div>
+
+                    <div class="lighting-controls">
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-navy);">Ambient Lighting:</span>
+                        <div class="lighting-buttons">
+                            <button class="light-btn active" data-light="daylight"><i class="fas fa-sun"></i> Daylight</button>
+                            <button class="light-btn" data-light="warm"><i class="fas fa-lightbulb"></i> Warm 2700K</button>
+                            <button class="light-btn" data-light="cool"><i class="fas fa-cloud-sun"></i> Cool 4000K</button>
+                        </div>
+                    </div>
+
+                    <div class="selected-color-meta">
+                        <div class="color-swatch-large" id="selectedSwatch"></div>
+                        <div class="selected-color-info">
+                            <h3 id="selectedColorName">Brilliant White</h3>
+                            <p id="selectedColorDesc">Crisp, radiant white ideal for brightening interiors and ceilings.</p>
+                            <div id="selectedColorFinishes" style="margin-top: 6px;"></div>
+                            <div id="selectedColorRooms" style="font-size: 0.75rem; color: var(--accent-teal); font-weight: 700; margin-top: 4px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-  </main>
 
-  <!-- JQUERY & OWL CAROUSEL JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Interactive Products Catalog & Official Price List -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Official Product Catalog</span>
+                <h2 class="section-title">Paints & Official Price List</h2>
+                <p class="section-desc">Browse Apex Coating products with complete prices for 1 Litre, 4 Litres, and 20 Litres containers. Instant tinting available across all branches.</p>
+            </div>
 
-  <!-- External JavaScript -->
-  <script src="script.js"></script>
+            <div class="catalog-toolbar">
+                <div class="color-filters product-cat-filters" style="margin-bottom: 0;">
+                    <button class="filter-chip active" data-cat="all">All Products</button>
+                    <button class="filter-chip" data-cat="exterior">Exterior Paints</button>
+                    <button class="filter-chip" data-cat="interior">Interior Emulsions</button>
+                    <button class="filter-chip" data-cat="wood-metal">Wood & Metal</button>
+                    <button class="filter-chip" data-cat="primers">Primers & Sealer</button>
+                    <button class="filter-chip" data-cat="textured">Textured Finishes</button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearchInput" placeholder="Search paint by name, finish, or use...">
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products populated dynamically by js/main.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Paint Quantity & Cost Calculator Widget -->
+    <section class="calc-section" id="calculator">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle" style="color: var(--accent-gold);">Precision Paint Estimator</span>
+                <h2 class="section-title">Paint Quantity & Cost Calculator</h2>
+                <p class="section-desc">Input your wall dimensions to calculate exact paint volume (litres) and estimated cost for your project.</p>
+            </div>
+
+            <div class="calc-card">
+                <form class="calc-form" id="calcForm" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-ruler-horizontal"></i> Room Length (Meters)</label>
+                            <input type="number" id="roomLength" class="form-control" value="6" step="0.5" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-ruler-vertical"></i> Room Width (Meters)</label>
+                            <input type="number" id="roomWidth" class="form-control" value="4" step="0.5" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><label><i class="fas fa-arrows-alt-v"></i> Ceiling Height (Meters)</label></label>
+                            <input type="number" id="roomHeight" class="form-control" value="2.8" step="0.1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-paint-roller"></i> Desired Paint Product</label>
+                            <select id="calcProductSelect" class="form-control">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-door-closed"></i> Doors Count (Deduction)</label>
+                            <input type="number" id="roomDoors" class="form-control" value="2" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-window-maximize"></i> Windows Count (Deduction)</label>
+                            <input type="number" id="roomWindows" class="form-control" value="2" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-layer-group"></i> Number of Coats</label>
+                        <select id="coatCount" class="form-control">
+                            <option value="1">1 Coat (Touch Up)</option>
+                            <option value="2" selected>2 Coats (Standard Recommendation)</option>
+                            <option value="3">3 Coats (Heavy Fresh Masonry)</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="calc-result-box">
+                    <div>
+                        <div class="result-item">
+                            <div class="result-number" id="calcLitresOutput">0 L</div>
+                            <div class="result-label">Total Paint Required</div>
+                            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 4px;" id="calcAreaOutput">0 m² net area</div>
+                        </div>
+
+                        <div class="result-item">
+                            <div class="result-number" id="calcCostOutput" style="color: var(--accent-teal); font-size: 2.2rem;">KES 0</div>
+                            <div class="result-label">Estimated Total Paint Cost</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: var(--radius-sm);">
+                        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-gold);" id="calcTinBreakdown">Recommended Tins Breakdown</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Locator & Distribution Network -->
+    <section class="stores-section" id="stores">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">East Africa Branch Network</span>
+                <h2 class="section-title">Apex Distribution & Tinting Hubs</h2>
+                <p class="section-desc">Visit any of our fully-equipped computerized color tinting centers across East Africa.</p>
+            </div>
+
+            <div class="stores-grid">
+                <div class="store-card">
+                    <h3 class="store-city"><i class="fas fa-building" style="color: var(--accent-teal);"></i> Nairobi Head Office & Factory</h3>
+                    <p class="store-detail"><i class="fas fa-map-pin"></i> Enterprise Road, Industrial Area, Nairobi</p>
+                    <p class="store-detail"><i class="fas fa-phone"></i> +254 700 800 901 / +254 20 6500 000</p>
+                    <p class="store-detail"><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 5:30 PM</p>
+                </div>
+
+                <div class="store-card">
+                    <h3 class="store-city"><i class="fas fa-warehouse" style="color: var(--accent-teal);"></i> Mombasa Coastal Hub</h3>
+                    <p class="store-detail"><i class="fas fa-map-pin"></i> Mojoroad, Shimanzi Industrial Area, Mombasa</p>
+                    <p class="store-detail"><i class="fas fa-phone"></i> +254 700 800 902</p>
+                    <p class="store-detail"><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 5:00 PM</p>
+                </div>
+
+                <div class="store-card">
+                    <h3 class="store-city"><i class="fas fa-store-alt" style="color: var(--accent-teal);"></i> Kisumu Western Regional Center</h3>
+                    <p class="store-detail"><i class="fas fa-map-pin"></i> Oginga Odinga Street, Kisumu CBD</p>
+                    <p class="store-detail"><i class="fas fa-phone"></i> +254 700 800 903</p>
+                    <p class="store-detail"><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 5:00 PM</p>
+                </div>
+
+                <div class="store-card">
+                    <h3 class="store-city"><i class="fas fa-globe-africa" style="color: var(--accent-teal);"></i> Kampala Regional Depot (Uganda)</h3>
+                    <p class="store-detail"><i class="fas fa-map-pin"></i> 5th Street Industrial Area, Kampala</p>
+                    <p class="store-detail"><i class="fas fa-phone"></i> +256 700 112 233</p>
+                    <p class="store-detail"><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>APEX COATING EAST AFRICA LTD</h3>
+                    <p>East Africa's premier manufacturer of high-performance architectural, industrial, and decorative paints certified under British BS 4800 color standards.</p>
+                    <div style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 20px;">
+                        <a href="#" style="color: var(--accent-gold);"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" style="color: var(--accent-gold);"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: var(--accent-gold);"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" style="color: var(--accent-gold);"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#colors">BS 4800 Color Palette</a></li>
+                        <li><a href="#products">Products & Prices</a></li>
+                        <li><a href="#calculator">Paint Calculator</a></li>
+                        <li><a href="#stores">Store Network</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Paint Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#products">Exterior Weatherguard</a></li>
+                        <li><a href="#products">Vinyl Silk Emulsion</a></li>
+                        <li><a href="#products">Master Matt Emulsion</a></li>
+                        <li><a href="#products">High Gloss Synthetic Enamels</a></li>
+                        <li><a href="#products">Wood Varnishes & Lacquers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Headquarters</h4>
+                    <p style="margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Enterprise Rd, Industrial Area, Nairobi, Kenya</p>
+                    <p style="margin-bottom: 10px;"><i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i> Tel: +254 700 800 900</p>
+                    <p><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> Email: sales@apexcoatings.co.ke</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Apex Coating East Africa Ltd. All Rights Reserved. Modelled for Crown Paints & Duracoat regional standards.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Instant Quote Cart Drawer Modal -->
+    <div class="quote-modal-overlay" id="quoteModalOverlay">
+        <div class="quote-drawer">
+            <div class="drawer-header">
+                <h3><i class="fas fa-file-invoice-dollar"></i> Instant Paint Quotation</h3>
+                <span class="drawer-close" id="cartDrawerClose">&times;</span>
+            </div>
+            <div class="drawer-body">
+                <div class="cart-items-list" id="cartItemsList">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <div class="drawer-footer">
+                <div class="total-row">
+                    <span>Estimated Total:</span>
+                    <span id="cartTotalSum" style="color: var(--accent-teal);">KES 0</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="submitQuoteInquiry()">
+                    <i class="fas fa-paper-plane"></i> Submit Quotation Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="js/colors-data.js"></script>
+    <script src="js/products-data.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
